@@ -135,7 +135,8 @@ var StorybookControls = function (_React$Component) {
         {
           key: story,
           style: storyStyle,
-          onClick: this.fireOnStory.bind(this, story)
+          onClick: this.fireOnStory.bind(this, story),
+          className: 'stories-list-story'
         },
         story
       );
@@ -179,7 +180,8 @@ var StorybookControls = function (_React$Component) {
         {
           key: kind,
           style: kindStyle,
-          onClick: this.fireOnKind.bind(this, kind)
+          onClick: this.fireOnKind.bind(this, kind),
+          className: 'stories-list-kind'
         },
         kind
       );
@@ -255,7 +257,7 @@ var StorybookControls = function (_React$Component) {
         ),
         _react2.default.createElement(
           'div',
-          { style: listStyle },
+          { style: listStyle, className: 'stories-list' },
           kindNames.map(this.renderKind.bind(this))
         )
       );

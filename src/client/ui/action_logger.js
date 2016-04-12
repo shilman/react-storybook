@@ -26,6 +26,7 @@ const headStyle = {
     -apple-system, ".SFNSText-Regular", "San Francisco", "Roboto",
     "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif
   `,
+  float: 'left',
   color: '#444',
   letterSpacing: '2px',
   fontSize: 12,
@@ -33,6 +34,7 @@ const headStyle = {
 };
 
 const btnStyle = {
+  float: 'left',
   marginLeft: 5,
 };
 
@@ -67,11 +69,9 @@ class ActionLogger extends Component {
     const { onClear } = this.props;
     return (
       <div style={wrapStyle}>
-        <h3 style={headStyle}>
-          ACTION LOGGER
-          <button style={btnStyle} onClick={onClear}>CLEAR</button>
-        </h3>
-        <pre style={preStyle}>{this.getActionData()}</pre>
+        <h3 style={headStyle}>ACTION LOGGER</h3>
+        <button style={btnStyle} className="action-logs-clear" onClick={onClear}>CLEAR</button>
+        <pre style={preStyle} className="action-logs-list">{this.getActionData()}</pre>
       </div>
       );
   }

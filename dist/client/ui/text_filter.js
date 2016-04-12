@@ -96,14 +96,16 @@ var TextFilter = function (_React$Component) {
             placeholder: 'Filter',
             name: 'filter-text',
             value: this.props.filterText,
-            onChange: this.onChange.bind(this)
+            onChange: this.onChange.bind(this),
+            className: 'story-filter-input'
           })
         ),
         _react2.default.createElement(
           'div',
           {
             style: clearButtonStyle,
-            onClick: this.props.onClear
+            onClick: this.props.onClear,
+            className: 'story-filter-clear'
           },
           'x'
         )

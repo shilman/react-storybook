@@ -54,11 +54,13 @@ export default class TextFilter extends React.Component {
             name="filter-text"
             value={this.props.filterText}
             onChange={this.onChange.bind(this)}
+            className="story-filter-input"
           />
         </div>
         <div
           style={clearButtonStyle}
           onClick={this.props.onClear}
+          className="story-filter-clear"
         >x
         </div>
       </div>

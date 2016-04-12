@@ -53,6 +53,7 @@ var wrapStyle = {
 
 var headStyle = {
   fontFamily: '\n    -apple-system, ".SFNSText-Regular", "San Francisco", "Roboto",\n    "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif\n  ',
+  float: 'left',
   color: '#444',
   letterSpacing: '2px',
   fontSize: 12,
@@ -60,6 +61,7 @@ var headStyle = {
 };
 
 var btnStyle = {
+  float: 'left',
   marginLeft: 5
 };
 
@@ -115,16 +117,16 @@ var ActionLogger = function (_Component) {
         _react2.default.createElement(
           'h3',
           { style: headStyle },
-          'ACTION LOGGER',
-          _react2.default.createElement(
-            'button',
-            { style: btnStyle, onClick: onClear },
-            'CLEAR'
-          )
+          'ACTION LOGGER'
+        ),
+        _react2.default.createElement(
+          'button',
+          { style: btnStyle, className: 'action-logs-clear', onClick: onClear },
+          'CLEAR'
         ),
         _react2.default.createElement(
           'pre',
-          { style: preStyle },
+          { style: preStyle, className: 'action-logs-list' },
           this.getActionData()
         )
       );

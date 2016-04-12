@@ -75,6 +75,7 @@ export default class StorybookControls extends React.Component {
         key={story}
         style={storyStyle}
         onClick={this.fireOnStory.bind(this, story)}
+        className="stories-list-story"
       >
         {story}
       </div>
@@ -113,6 +114,7 @@ export default class StorybookControls extends React.Component {
         key={kind}
         style={kindStyle}
         onClick={this.fireOnKind.bind(this, kind)}
+        className="stories-list-kind"
       >
         {kind}
       </div>
@@ -180,7 +182,7 @@ export default class StorybookControls extends React.Component {
             onClear={this.clearFilterText.bind(this)}
           />
         </div>
-        <div style={listStyle}>
+        <div style={listStyle} className="stories-list">
           {kindNames.map(this.renderKind.bind(this))}
         </div>
       </div>
