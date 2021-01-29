@@ -1,7 +1,7 @@
 {
   "name": "@storybook/addon-links",
-  "version": "6.2.0-alpha.7",
-  "description": "Story Links addon for storybook",
+  "version": "6.2.0-alpha.19",
+  "description": "Link stories together to build demos and prototypes with your UI components",
   "keywords": [
     "addon",
     "storybook"
@@ -36,21 +36,21 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/addons": "6.2.0-alpha.7",
-    "@storybook/client-logger": "6.2.0-alpha.7",
-    "@storybook/core-events": "6.2.0-alpha.7",
+    "@storybook/addons": "6.2.0-alpha.19",
+    "@storybook/client-logger": "6.2.0-alpha.19",
+    "@storybook/core-events": "6.2.0-alpha.19",
     "@storybook/csf": "0.0.1",
-    "@storybook/router": "6.2.0-alpha.7",
-    "@types/qs": "^6.9.0",
-    "core-js": "^3.0.1",
-    "global": "^4.3.2",
+    "@storybook/router": "6.2.0-alpha.19",
+    "@types/qs": "^6.9.5",
+    "core-js": "^3.8.2",
+    "global": "^4.4.0",
     "prop-types": "^15.7.2",
-    "qs": "^6.6.0",
+    "qs": "^6.9.5",
     "regenerator-runtime": "^0.13.7",
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
-    "@types/webpack-env": "^1.15.3"
+    "@types/webpack-env": "^1.16.0"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0",
@@ -67,5 +67,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "ba05f6ae5e8062abee62675cb49dd38e5e3ce742"
+  "gitHead": "2a8f070c0c3ba56dc820cb04e96d9bf3f47a6a23"
 }

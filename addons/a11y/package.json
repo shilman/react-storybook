@@ -1,7 +1,7 @@
 {
   "name": "@storybook/addon-a11y",
-  "version": "6.2.0-alpha.7",
-  "description": "a11y addon for storybook",
+  "version": "6.2.0-alpha.19",
+  "description": "Test component compliance with web accessibility standards",
   "keywords": [
     "a11y",
     "accessibility",
@@ -40,26 +40,26 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/addons": "6.2.0-alpha.7",
-    "@storybook/api": "6.2.0-alpha.7",
-    "@storybook/channels": "6.2.0-alpha.7",
-    "@storybook/client-api": "6.2.0-alpha.7",
-    "@storybook/client-logger": "6.2.0-alpha.7",
-    "@storybook/components": "6.2.0-alpha.7",
-    "@storybook/core-events": "6.2.0-alpha.7",
-    "@storybook/theming": "6.2.0-alpha.7",
-    "axe-core": "^4.0.1",
-    "core-js": "^3.0.1",
-    "global": "^4.3.2",
-    "lodash": "^4.17.15",
-    "react-sizeme": "^2.5.2",
+    "@storybook/addons": "6.2.0-alpha.19",
+    "@storybook/api": "6.2.0-alpha.19",
+    "@storybook/channels": "6.2.0-alpha.19",
+    "@storybook/client-api": "6.2.0-alpha.19",
+    "@storybook/client-logger": "6.2.0-alpha.19",
+    "@storybook/components": "6.2.0-alpha.19",
+    "@storybook/core-events": "6.2.0-alpha.19",
+    "@storybook/theming": "6.2.0-alpha.19",
+    "axe-core": "^4.1.1",
+    "core-js": "^3.8.2",
+    "global": "^4.4.0",
+    "lodash": "^4.17.20",
+    "react-sizeme": "^2.6.12",
     "regenerator-runtime": "^0.13.7",
     "ts-dedent": "^2.0.0",
     "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
-    "@testing-library/react": "^10.0.4",
-    "@types/webpack-env": "^1.15.3"
+    "@testing-library/react": "^10.4.9",
+    "@types/webpack-env": "^1.16.0"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0",
@@ -76,5 +76,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "ba05f6ae5e8062abee62675cb49dd38e5e3ce742"
+  "gitHead": "2a8f070c0c3ba56dc820cb04e96d9bf3f47a6a23"
 }

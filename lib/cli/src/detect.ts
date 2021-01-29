@@ -8,6 +8,7 @@ import {
   SupportedLanguage,
   TemplateConfiguration,
   TemplateMatcher,
+  unsupportedTemplate,
 } from './project_types';
 import { getBowerJson } from './helpers';
 import { PackageJson, readPackageJson } from './js-package-manager';
@@ -15,15 +16,28 @@ import { PackageJson, readPackageJson } from './js-package-manager';
 const hasDependency = (
   packageJson: PackageJson,
   name: string,
-  matcher?: (v: string) => boolean
+  matcher?: (version: string) => boolean
 ) => {
-  const dependency = packageJson.dependencies?.[name] || packageJson.devDependencies?.[name];
-  return typeof matcher === 'function' ? dependency && matcher(dependency) : !!dependency;
+  const version = packageJson.dependencies?.[name] || packageJson.devDependencies?.[name];
+  if (version && typeof matcher === 'function') {
+    return matcher(version);
+  }
+  return !!version;
 };
 
-const hasPeerDependency = (packageJson: PackageJson, name: string) => {
-  return !!packageJson.peerDependencies?.[name];
+const hasPeerDependency = (
+  packageJson: PackageJson,
+  name: string,
+  matcher?: (version: string) => boolean
+) => {
+  const version = packageJson.peerDependencies?.[name];
+  if (version && typeof matcher === 'function') {
+    return matcher(version);
+  }
+  return !!version;
 };
+
+type SearchTuple = [string, (version: string) => boolean | undefined];
 
 const getFrameworkPreset = (
   packageJson: PackageJson,
@@ -37,16 +51,32 @@ const getFrameworkPreset = (
 
   const { preset, files, dependencies, peerDependencies, matcherFunction } = framework;
 
+  let dependencySearches = [] as SearchTuple[];
   if (Array.isArray(dependencies)) {
-    matcher.dependencies = dependencies.map((name) => hasDependency(packageJson, name));
+    dependencySearches = dependencies.map((name) => [name, undefined]);
   } else if (typeof dependencies === 'object') {
-    matcher.dependencies = Object.entries(dependencies).map(([name, dependencyMatcher]) =>
-      hasDependency(packageJson, name, dependencyMatcher)
+    dependencySearches = Object.entries(dependencies);
+  }
+
+  // Must check the length so the `[false]` isn't overwritten if `{ dependencies: [] }`
+  if (dependencySearches.length > 0) {
+    matcher.dependencies = dependencySearches.map(([name, matchFn]) =>
+      hasDependency(packageJson, name, matchFn)
     );
   }
 
-  if (Array.isArray(peerDependencies) && peerDependencies.length > 0) {
-    matcher.peerDependencies = peerDependencies.map((name) => hasPeerDependency(packageJson, name));
+  let peerDependencySearches = [] as SearchTuple[];
+  if (Array.isArray(peerDependencies)) {
+    peerDependencySearches = peerDependencies.map((name) => [name, undefined]);
+  } else if (typeof peerDependencies === 'object') {
+    peerDependencySearches = Object.entries(peerDependencies);
+  }
+
+  // Must check the length so the `[false]` isn't overwritten if `{ peerDependencies: [] }`
+  if (peerDependencySearches.length > 0) {
+    matcher.peerDependencies = peerDependencySearches.map(([name, matchFn]) =>
+      hasPeerDependency(packageJson, name, matchFn)
+    );
   }
 
   if (Array.isArray(files) && files.length > 0) {
@@ -57,7 +87,7 @@ const getFrameworkPreset = (
 };
 
 export function detectFrameworkPreset(packageJson = {}) {
-  const result = supportedTemplates.find((framework) => {
+  const result = [...supportedTemplates, unsupportedTemplate].find((framework) => {
     return getFrameworkPreset(packageJson, framework) !== null;
   });
 

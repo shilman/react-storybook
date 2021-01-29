@@ -1,4 +1,14 @@
-import { minVersion } from '@storybook/semver';
+import { validRange, minVersion } from '@storybook/semver';
+
+function ltMajor(versionRange: string, major: number) {
+  // Uses validRange to avoid a throw from minVersion if an invalid range gets passed
+  return validRange(versionRange) && minVersion(versionRange).major < major;
+}
+
+function eqMajor(versionRange: string, major: number) {
+  // Uses validRange to avoid a throw from minVersion if an invalid range gets passed
+  return validRange(versionRange) && minVersion(versionRange).major === major;
+}
 
 // Should match @storybook/<framework>
 export type SupportedFrameworks =
@@ -22,6 +32,7 @@ export type SupportedFrameworks =
 
 export enum ProjectType {
   UNDETECTED = 'UNDETECTED',
+  UNSUPPORTED = 'UNSUPPORTED',
   REACT_SCRIPTS = 'REACT_SCRIPTS',
   METEOR = 'METEOR',
   REACT = 'REACT',
@@ -86,8 +97,8 @@ export type TemplateMatcher = {
 export type TemplateConfiguration = {
   preset: ProjectType;
   /** will be checked both against dependencies and devDependencies */
-  dependencies?: string[] | { [key: string]: (version: string) => boolean };
-  peerDependencies?: string[] | { [key: string]: (version: string) => boolean };
+  dependencies?: string[] | { [dependency: string]: (version: string) => boolean };
+  peerDependencies?: string[] | { [dependency: string]: (version: string) => boolean };
   files?: string[];
   matcherFunction: (matcher: TemplateMatcher) => boolean;
 };
@@ -125,7 +136,12 @@ export const supportedTemplates: TemplateConfiguration[] = [
   },
   {
     preset: ProjectType.VUE,
-    dependencies: ['vue', 'nuxt'],
+    // The Vue template only works with Vue or Nuxt under v3
+    // In a future update, a new Vue3 template will be added
+    dependencies: {
+      vue: (versionRange) => ltMajor(versionRange, 3),
+      nuxt: (versionRange) => ltMajor(versionRange, 3),
+    },
     matcherFunction: ({ dependencies }) => {
       return dependencies.some(Boolean);
     },
@@ -247,8 +263,25 @@ export const supportedTemplates: TemplateConfiguration[] = [
   },
 ];
 
+// A TemplateConfiguration that matches unsupported frameworks
+// Framework matchers can be added to this object to give
+// users an "Unsupported framework" message
+export const unsupportedTemplate: TemplateConfiguration = {
+  preset: ProjectType.UNSUPPORTED,
+  dependencies: {
+    // TODO(blaine): Remove when we support Vue 3
+    vue: (versionRange) => versionRange === 'next' || eqMajor(versionRange, 3),
+    // TODO(blaine): Remove when we support Vue 3
+    nuxt: (versionRange) => eqMajor(versionRange, 3),
+  },
+  matcherFunction: ({ dependencies }) => {
+    return dependencies.some(Boolean);
+  },
+};
+
 const notInstallableProjectTypes: ProjectType[] = [
   ProjectType.UNDETECTED,
+  ProjectType.UNSUPPORTED,
   ProjectType.ALREADY_HAS_STORYBOOK,
   ProjectType.UPDATE_PACKAGE_ORGANIZATIONS,
 ];
